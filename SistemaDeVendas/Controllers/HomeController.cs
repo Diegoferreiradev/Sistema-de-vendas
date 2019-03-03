@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SistemaDeVendas.Models;
+using SistemaDeVendas.Models.ViewModels;
 
 namespace SistemaDeVendas.Controllers
 {
@@ -17,14 +17,15 @@ namespace SistemaDeVendas.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Sistema de Vendas Online";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "E-mail para Contato";
+            ViewData["Email"] = "diegoferreiradev@gmail.com";
 
             return View();
         }
