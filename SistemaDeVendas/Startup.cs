@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using SistemaDeVendas.Models;
+using SistemaDeVendas.Data;
 
 namespace SistemaDeVendas
 {
@@ -38,6 +39,8 @@ namespace SistemaDeVendas
 
             services.AddDbContext<SistemaDeVendasContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("SistemaDeVendasContext")));
+
+            services.AddScoped<SeedingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +49,7 @@ namespace SistemaDeVendas
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
             }
             else
             {
