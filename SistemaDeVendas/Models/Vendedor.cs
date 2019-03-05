@@ -11,8 +11,8 @@ namespace SistemaDeVendas.Models
         public string Email { get; set; }
         public DateTime DataNascimento { get; set; }
         public double BaseSalarial { get; set; }
-
         public Departamento Departamento { get; set; }
+        public int DepartamentoId { get; set; }
         public ICollection<RegistroVendas> Vendas { get; set; } = new List<RegistroVendas>();
 
 
