@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SistemaDeVendas.Services.Exceptions;
 
 namespace SistemaDeVendas.Services
 {
@@ -37,6 +38,24 @@ namespace SistemaDeVendas.Services
             var obj = _context.Vendedor.Find(id);
             _context.Remove(obj);
             _context.SaveChanges();
+        }
+
+        public void Update(Vendedor vendedor)
+        {
+            if (!_context.Vendedor.Any(x => x.Id == vendedor.Id))
+            {
+                throw new NotFoundException("Id não encontrado");
+            }
+
+            try
+            {
+                _context.Update(vendedor);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
         }
     }
 }
