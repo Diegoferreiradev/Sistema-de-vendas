@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SistemaDeVendas.Models;
 using SistemaDeVendas.Models.ViewModels;
 using SistemaDeVendas.Services;
-using SistemaDeVendas.Services.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SistemaDeVendas.Controllers
 {
@@ -40,6 +37,12 @@ namespace SistemaDeVendas.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var departamentos = _departamentoService.FindAll();
+                var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departamentos };
+                return View(viewModel);
+            }
             _vendedorService.Insert(vendedor);
 
             return RedirectToAction(nameof(Index));
@@ -106,6 +109,13 @@ namespace SistemaDeVendas.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var departamentos = _departamentoService.FindAll();
+                var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departamentos };
+                return View(viewModel);
+            }
+
             if (id != vendedor.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não conrresponde" });
