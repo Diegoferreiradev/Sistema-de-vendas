@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace SistemaDeVendas.Models
@@ -7,12 +8,27 @@ namespace SistemaDeVendas.Models
     public class Vendedor
     {
         public int Id { get; set; }
+
         public string Nome { get; set; }
+
+        [Display(Name = "E-mail")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        [Display(Name = "Data de Nascimento")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataNascimento { get; set; }
+
+        [Display(Name = "Base Salarial")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double BaseSalarial { get; set; }
+
         public Departamento Departamento { get; set; }
+
+        [Display(Name = "Departamento")]
         public int DepartamentoId { get; set; }
+
         public ICollection<RegistroVendas> Vendas { get; set; } = new List<RegistroVendas>();
 
 
