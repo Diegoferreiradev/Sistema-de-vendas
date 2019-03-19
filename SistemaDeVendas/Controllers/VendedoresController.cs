@@ -2,6 +2,7 @@
 using SistemaDeVendas.Models;
 using SistemaDeVendas.Models.ViewModels;
 using SistemaDeVendas.Services;
+using SistemaDeVendas.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -67,8 +68,15 @@ namespace SistemaDeVendas.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            await _vendedorService.RemoveAsync(id);
-            return RedirectToAction("Index");
+            try
+            {
+                await _vendedorService.RemoveAsync(id);
+                return RedirectToAction("Index");
+            }
+            catch (IntegrityException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
         public async Task<IActionResult> Details(int? id)
