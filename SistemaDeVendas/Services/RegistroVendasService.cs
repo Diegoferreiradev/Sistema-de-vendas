@@ -30,7 +30,26 @@ namespace SistemaDeVendas.Services
             return await result
                 .Include(x => x.Vendedor)
                 .Include(x => x.Vendedor.Departamento)
-                .OrderBy(x => x.Data)
+                .OrderByDescending(x => x.Data)
+                .ToListAsync();
+        }
+
+        public async Task<List<IGrouping<Departamento, RegistroVendas>>> FindByDateGroupAsync(DateTime? minDate, DateTime? maxDate)
+        {
+            var result = from obj in _context.RegistroVenda select obj;
+            if (minDate.HasValue)
+            {
+                result = result.Where(x => x.Data >= minDate.Value);
+            }
+            if (maxDate.HasValue)
+            {
+                result = result.Where(x => x.Data <= maxDate.Value);
+            }
+            return await result
+                .Include(x => x.Vendedor)
+                .Include(x => x.Vendedor.Departamento)
+                .OrderByDescending(x => x.Data)
+                .GroupBy(x => x.Vendedor.Departamento)
                 .ToListAsync();
         }
     }
